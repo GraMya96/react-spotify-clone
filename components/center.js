@@ -6,6 +6,7 @@ import { allPlaylists, selectedPlaylistState } from '../atoms/playlistAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import Songs from "./songs";
 import useSpotify from "../hooks/useSpotify";
+import { isSpotifyConnectionError } from "../atoms/songAtom";
 
 const COLORS = [
     'from-indigo-500',
@@ -26,6 +27,7 @@ const Center = () => {
     const playlists = useRecoilValue( allPlaylists );
     const [ dropdownOpened, setDropdownOpened ] = useState(false);
     const [ selectedPlaylist, setSelectedPlaylist ] = useRecoilState( selectedPlaylistState );
+    const [ spotifyError, setSpotifyError ] = useRecoilState( isSpotifyConnectionError );
 
     useEffect(() => {
         //Get initial playlist
@@ -40,6 +42,13 @@ const Center = () => {
     useEffect(() => {
         setColor(shuffle(COLORS).pop());
     }, [ selectedPlaylist ])
+
+    // Error Message disappearing after 1.2s
+    useEffect(() => {
+        if( spotifyError && spotifyError !== '' ) {
+            setTimeout( () => setSpotifyError(''), 1200 )
+        }
+    }, [ spotifyError ])
 
     return (
         <div className='flex-grow text-white h-screen overflow-y-scroll scrollbar-hide'>
@@ -58,7 +67,7 @@ const Center = () => {
                     ${ !dropdownOpened && 'hidden' }` }>
                     <button className='space-x-2 justify-center
                     hover:text-white text-gray-300 text-sm' onClick={() => signOut()}>
-                        <p>Logout</p>
+                        <p className='font-bold'>Logout</p>
                     </button>
                 </div>
             </header>
@@ -79,6 +88,16 @@ const Center = () => {
                 }
 
             </section>
+
+            {
+                spotifyError && spotifyError !== ''
+                    ?  (
+                        <section className="my-3 mx-8 bg-red-700 px-4 py-1 font-md">
+                            <p>Connection Error: { spotifyError }</p>
+                        </section>
+                    )
+                    : null
+            }
 
             <div>
                 <Songs />

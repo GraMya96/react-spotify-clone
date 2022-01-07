@@ -1,21 +1,21 @@
 import useSpotify from '../hooks/useSpotify';
 import { useSetRecoilState } from 'recoil';
 import { millisToMinutesAndSeconds } from '../utils/milliseconds';
-import { currentSongIdState, isPlayingState } from '../atoms/songAtom';
+import { currentSongIdState, isPlayingState, isSpotifyConnectionError } from '../atoms/songAtom';
 
 const Song = ({ song }) => {
 
     const spotifyApi = useSpotify();
     const setCurrentSongId = useSetRecoilState( currentSongIdState );
     const setIsPlaying = useSetRecoilState( isPlayingState );
+    const setSpotifyError = useSetRecoilState( isSpotifyConnectionError );
 
     const playSong = id => {
         setCurrentSongId( id );
         setIsPlaying( true );
         spotifyApi.play({
             uris: [ song.track.uri ]
-        })
-        .catch( () => alert( 'First, play a song on Spotify App using the device you are using this app from!' ) )
+        }).catch( () => setSpotifyError( 'Please play a song from Spotify App using this device' ) );
     }
 
     return (

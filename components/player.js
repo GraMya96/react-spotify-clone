@@ -1,8 +1,8 @@
 import { useSession } from "next-auth/react";
 import useSpotify from "../hooks/useSpotify";
-import { useRecoilState } from 'recoil';
-import { useEffect, useState, useCallback } from "react";
-import { isPlayingState, currentSongIdState } from "../atoms/songAtom";
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useEffect, useState } from "react";
+import { isPlayingState, currentSongIdState, isSpotifyConnectionError } from "../atoms/songAtom";
 import { useSongInfo } from '../hooks/useSongInfo';
 import { PauseIcon, SwitchHorizontalIcon, VolumeOffIcon } from '@heroicons/react/outline'
 import { FastForwardIcon, PlayIcon, ReplyIcon, RewindIcon, VolumeUpIcon } from '@heroicons/react/solid'
@@ -14,6 +14,7 @@ const Player = () => {
     const spotifyApi = useSpotify();
     const [ currentSongId, setCurrentSongId ] = useRecoilState( currentSongIdState );
     const [ isPlaying, setIsPlaying ] = useRecoilState( isPlayingState );
+    const setSpotifyError = useSetRecoilState( isSpotifyConnectionError );
     const { data: session, status } = useSession();
     const [ volume, setVolume ] = useState(50);
 
@@ -22,11 +23,19 @@ const Player = () => {
     const handlePlayPause = () => {
         spotifyApi.getMyCurrentPlaybackState().then( data => {
             if( data.body?.is_playing ) {
-                spotifyApi.pause().catch( () => alert( 'First, play a song on Spotify App using the device you are using this app from!' ) );
+                spotifyApi.pause()
+                .catch( () => (
+                    setSpotifyError( 'Please play a song from Spotify App using this device' )
+                ) );
+
                 setIsPlaying( false );
             }
             else {
-                spotifyApi.play().catch( () => alert( 'First, play a song on Spotify App using the device you are using this app from!' ) );
+                spotifyApi.play()
+                .catch( () => (
+                    setSpotifyError( 'Please play a song from Spotify App using this device' )
+                ) );
+
                 setIsPlaying( true );
             }
         } )

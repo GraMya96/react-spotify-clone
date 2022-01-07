@@ -9,3 +9,8 @@ export const isPlayingState = atom({
     key: 'isPlaying',
     default: false
 })
+
+export const isSpotifyConnectionError = atom({
+    key: 'spotifyError',
+    default: ''
+})
