@@ -46,7 +46,7 @@ const Center = () => {
     // Error Message disappearing after 1.2s
     useEffect(() => {
         if( spotifyError && spotifyError !== '' ) {
-            setTimeout( () => setSpotifyError(''), 1200 )
+            setTimeout( () => setSpotifyError(''), 2000 )
         }
     }, [ spotifyError ])
 
@@ -93,7 +93,7 @@ const Center = () => {
                 spotifyError && spotifyError !== ''
                     ?  (
                         <section className="my-3 mx-8 bg-red-700 px-4 py-1 font-md">
-                            <p>Connection Error: { spotifyError }</p>
+                            <p className='font-bold'>Connection Error: { spotifyError }</p>
                         </section>
                     )
                     : null
