@@ -4,7 +4,15 @@ import { NextResponse } from "next/server";
 // Using the middleware between the client request and the
 // server, we check the JWT token
 export const middleware = async req => {
-    const token = await getToken({ req, secret: process.env.JWT_SECRET });
+    const token = await getToken({
+        req,
+        secret: process.env.JWT_SECRET,
+
+        // Added to make production authentication work
+        secureCookie:
+            process.env.NEXTAUTH_URL?.startsWith("https://") ??
+            !!process.env.VERCEL_URL,
+     });
 
     const { pathname } = req.nextUrl; //catching the URL we are making the request to
 
