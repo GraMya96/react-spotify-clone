@@ -77,10 +77,10 @@ const Center = () => {
                     !loadingData && selectedPlaylist && selectedPlaylist.images && selectedPlaylist.name
                         ? (
                             <>
-                                <img className='h-44 w-44 shadow-2xl' src={ selectedPlaylist.images[0].url } alt="Playlist Cover" />
+                                <img className='h-28 w-28 md:h-44 md:w-44 shadow-2xl' src={ selectedPlaylist.images[0].url } alt="Playlist Cover" />
                                 <div className="flex flex-col flex-wrap">
                                     <p className="text-sm font-semibold">PLAYLIST</p>
-                                    <h1 className="text-[1.35rem] md:text-3xl xl:text-5xl font-bold pr-3 md:pr-0">{ selectedPlaylist.name }</h1>
+                                    <h1 className="text-[1.18rem] md:text-3xl xl:text-5xl font-bold pr-3 md:pr-0">{ selectedPlaylist.name }</h1>
                                 </div>
                             </>
                         )
