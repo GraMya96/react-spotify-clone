@@ -12,7 +12,6 @@ export default function Home() {
       </Head>
 
 
-
       <main className='flex'>
         <Sidebar />
         <Center />
