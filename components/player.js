@@ -55,7 +55,7 @@ const Player = () => {
     }
 
     const debouncedAdjustVolume =
-        // Imported function from lodash
+        // Imported function from lodash.
         debounce( volume => {
             spotifyApi.setVolume( volume ).catch( error => console.log( error.message ) );
         }, 350)
