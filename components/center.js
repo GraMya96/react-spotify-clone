@@ -80,7 +80,7 @@ const Center = () => {
                                 <img className='h-28 w-28 sm:h-44 sm:w-44 shadow-2xl' src={ selectedPlaylist.images[0].url } alt="Playlist Cover" />
                                 <div className="flex flex-col flex-wrap">
                                     <p className="text-sm font-semibold">PLAYLIST</p>
-                                    <h1 className="text-[1.18rem] md:text-3xl xl:text-5xl font-bold w-[75%] sm:w-auto md:pr-0">{ selectedPlaylist.name }</h1>
+                                    <h1 className="text-[1.10rem] md:text-3xl xl:text-5xl font-bold w-[75%] sm:w-auto md:pr-0">{ selectedPlaylist.name }</h1>
                                 </div>
                             </>
                         )
